@@ -1,0 +1,16 @@
+{% extends "::base.html.twig" %}
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+
+{% block title %}AddressBookBundle:Person:newPerson{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+
+
+{% endblock %}
+
+    {% block content %}
+        {{ form_start(form, {'attr':{'novalidate': 'novalidate'}}) }}
+        {{ form_widget(form) }}
+        {{ form_end(form) }}
+    {% endblock %}

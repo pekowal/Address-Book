@@ -1,0 +1,68 @@
+{% extends "::base.html.twig" %}
+
+
+{% block title %}AddressBookBundle:Person:index{% endblock %}
+
+
+{% block body %}
+    {{ parent() }}
+
+
+
+
+{% endblock %}
+    {% block content %}
+        <div class="row">
+            <h2>Wyszukiwarka:</h2>
+            <form class="form-inline">
+                <div class="form-group">
+                    <label>Imię</label>
+                    <input class="form-control" type="text" name="name" placeholder="Podaj imię"></br>
+                </div>
+                <div class="form-group">
+                    <label>Nazwisko:</label>
+                    <input class="form-control" type="text" name="surname" placeholder="Podaj nazwisko">
+                </div>
+                <button class="btn btn-success" type="submit">Szukaj</button>
+            </form>
+        </div>
+
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Imię:</th>
+                <th>Nazwisko:</th>
+                <th>Edycja:</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% if persons is defined %}
+                {% for person in persons %}
+                    <tr>
+                        <th>{{ person.name }}</th>
+                        <br>
+                        <th>{{ person.surname }}</th>
+                        <br>
+                        <th><a href="showPerson/{{ person.id }}">
+                                <button class="btn btn-success">Edytuj</button>
+                            </a></th>
+                    </tr>
+                    {#<img src="/Uploads/{{ person.photo }}" height="200" width="200"><br>#}
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <th>{{ person.name }}</th>
+                    <br>
+                    <th>{{ person.surname }}</th>
+                    <br>
+                    <th><a href="showPerson/{{ person.id }}">
+                            <button class="btn btn-success">Edytuj</button>
+                        </a></th>
+                </tr>
+                {#<img src="/Uploads/{{ person.photo }}" height="200" width="200"><br>#}
+
+            {% endif %}
+            </tbody>
+        </table>
+    {% endblock %}

@@ -1,0 +1,16 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}AddressBookBundle:Person:editPerson{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+{% endblock %}
+
+    {% block content %}
+        {{ form_start(form, {'attr':{'novalidate': 'novalidate'}}) }}
+        {% if photo %}
+            <img class="img-responsive img" src="/Uploads/{{ photo }}" height="200" width="200"><br>
+        {% endif %}
+        {{ form_widget(form) }}
+        {{ form_end(form) }}
+    {% endblock %}

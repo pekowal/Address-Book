@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, shrink-to-fit=no, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Przemysław Kowalczyk">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    {% block stylesheets %}
+        <!-- Bootstrap Core CSS -->
+        <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+        <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+
+        <!-- Custom CSS -->
+        <link href="{{ asset('css/simple-sidebar.css') }}" rel="stylesheet">
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
+    {% endblock %}
+
+</head>
+<body>
+{% block body %}
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="/">
+                        Address Book
+                    </a>
+                </li>
+                <li>
+                    <a href="/new">Stwórz nową osobę</a>
+                </li>
+                <li>
+                    <a href="/squad/add">Dodaj grupę</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div id="menu-toggle" class="text-center"><span class="glyphicon glyphicon-menu-left"></span></div>
+                    <div class="col-lg-12">
+                        {% block content %}
+                            <h1>Address Book</h1>
+                            <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>
+                        {% endblock %}
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <!-- /#page-content-wrapper -->
+
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('js/jquery.js') }}"></script>
+    <script src="{{ asset('js/jquery.transit.min.js') }}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+
+    <!-- Menu Toggle Script -->
+    <script>
+
+        $("#menu-toggle").click(function (e) {
+            var wrapper = $("#wrapper");
+            var span = $('#menu-toggle span');
+            if ($(this).css('transform') == 'matrix(-1, 1.22465e-16, -1.22465e-16, -1, 0, 0)'){
+                $(this).transition({rotate: '0deg'});
+            }else{
+                $(this).transition({rotate: '180deg'});
+            }
+
+            console.log($(this).css('transform'));
+
+            /*
+            if (span.hasClass('glyphicon-menu-left')) {
+                //span.removeClass("glyphicon-menu-left");
+
+            }else{
+                span.removeClass("glyphicon-menu-right");
+                span.addClass('glyphicon-menu-left');
+            }
+            */
+            wrapper.toggleClass("toggled");
+        });
+    </script>
+{% endblock %}
+</body>
+</html>
