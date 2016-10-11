@@ -2,6 +2,67 @@ body {
     overflow-x: hidden;
  }
 
+.login-div {
+    border-radius: 15px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+    padding: 25px;
+    width: 400px;
+    height: 350px;
+    background: white;
+    text-align: center;
+    margin: auto;
+    position: absolute;
+    top: -20%;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+.request-div {
+    border-radius: 15px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+    padding: 25px;
+    width: 400px;
+    height:150px;
+    background: white;
+    text-align: center;
+    margin: auto;
+    position: absolute;
+    top: -20%;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+.register-div {
+    border-radius: 15px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+    padding: 25px;
+    width: 400px;
+    height: 370px;
+    background: white;
+    text-align: center;
+    margin: auto;
+    position: absolute;
+    top: -20%;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+.nav-icon{
+    position: relative;
+    font-size: 20px;
+    margin: 2px;
+    padding: 5px;
+    color: #999999;
+
+}
+
+.nav-icon:hover{
+    color: white;
+}
+
+
 /* Toggle Styles */
 
 #wrapper {
@@ -16,6 +77,9 @@ body {
     padding-left: 250px;
 }
 
+#sidebar-wrapper h3{
+    color: white;
+}
 #sidebar-wrapper {
     z-index: 1000;
     position: fixed;
@@ -64,7 +128,7 @@ body {
 
 .sidebar-nav {
     position: absolute;
-    top: 0;
+    top: 100px;
     width: 250px;
     margin: 0;
     padding: 0;

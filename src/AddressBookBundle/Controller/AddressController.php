@@ -7,12 +7,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+
 
 class AddressController extends Controller
 {
     /**
      * @Route("addAddress/{id}")
      * @Template()
+     * @Security("has_role('ROLE_USER')")
      */
 
     public function addAddressAction(Request $request, $id){
@@ -27,7 +30,7 @@ class AddressController extends Controller
 
         $form->handleRequest($request);
 
-        if ($form->isValid() && $form->isSubmitted()){
+        if ($form->isSubmitted() && $form->isValid()){
 
             $repo = $this->getDoctrine()->getRepository('AddressBookBundle:Person');
             $person = $repo->find($id);
@@ -51,6 +54,7 @@ class AddressController extends Controller
     /**
      * @Route("deleteAddress/{id}")
      * @Template()
+     * @Security("has_role('ROLE_USER')")
      */
 
     public function deleteAddressAction($id){

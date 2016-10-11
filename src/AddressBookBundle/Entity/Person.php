@@ -40,6 +40,12 @@ class Person
     private $phones;
 
     /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="persons")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    private $user;
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="id", type="integer")
@@ -79,12 +85,6 @@ class Person
      * @var string
      *
      * @ORM\Column(name="photo", type="string", length=255, nullable=true)
-     * @Assert\File(
-     *     maxSize = "1M",
-     *     mimeTypes = {"image/jpeg", "image/jpg", "image/png"},
-     *     maxSizeMessage = "File is too big",
-     *     mimeTypesMessage = "Only the filetypes image are allowed"
-     * )
      */
     private $photo;
 
@@ -329,4 +329,50 @@ class Person
         return $this->phones;
     }
 
+
+    /**
+     * Add squads
+     *
+     * @param \AddressBookBundle\Entity\Squad $squads
+     * @return Person
+     */
+    public function addSquad(\AddressBookBundle\Entity\Squad $squads)
+    {
+        $this->squads[] = $squads;
+
+        return $this;
+    }
+
+    /**
+     * Remove squads
+     *
+     * @param \AddressBookBundle\Entity\Squad $squads
+     */
+    public function removeSquad(\AddressBookBundle\Entity\Squad $squads)
+    {
+        $this->squads->removeElement($squads);
+    }
+
+    /**
+     * Set user
+     *
+     * @param \AddressBookBundle\Entity\User $user
+     * @return Person
+     */
+    public function setUser(\AddressBookBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \AddressBookBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
 }

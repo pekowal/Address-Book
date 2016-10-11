@@ -13,28 +13,43 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Constraints\Choice;
 use Doctrine\Common\Collections\ArrayCollection;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
+
+/**
+ * Class PersonController
+ * @package AddressBookBundle\Controller
+ * @Route("/person")
+ */
 class PersonController extends Controller
 {
     /**
      * @Route("/new")
      * @Template()
+     * @Security("has_role('ROLE_USER')")
      */
     public function newPersonAction(Request $request)
     {
-        $person = new Person();
-        //$squad = new Squad();
+        $loggedUser = $this->container->get('security.context')->getToken()->getUser();
 
-        $form = $this->createFormBuilder($person)
+        $person = new Person();
+        $person->setUser($loggedUser);
+        $squad = new Squad();
+
+        $form = $this->createFormBuilder()
             ->add('name', 'text', array('label' => 'Imię:'))
             ->add('surname', 'text', array('label' => 'Nazwisko:'))
             ->add('description', 'text', array('label' => 'Opis:'))
-            //->add('squads','entity', array('class' => 'AddressBookBundle:Squad','choice_label'=>'name','label' => 'Grupa'))
-            ->add('photo', 'file', array('label' => 'Zdjęcie:'))
+            ->add('squads', 'entity', array('class' => 'AddressBookBundle:Squad', 'choice_label' => 'name', 'label' => 'Grupa'))
+            ->add('photo', 'file', array('label' => 'Zdjęcie:', 'required' => false))
             ->add('save', 'submit', array('label' => 'Stwórz Osobę'))
             ->getForm();
+
 
         $form->handleRequest($request);
 
@@ -42,21 +57,51 @@ class PersonController extends Controller
 
 
             if ($form->isSubmitted() && $form->isValid()) {
-                $newPerson = $form->getData();
+                $array = $form->getData();
 
-                if ($newPerson->getPhoto() != null) {
 
-                    $file = $newPerson->getPhoto();
+                if ($array['photo'] != null) {
+
+                    $file = $array['photo'];
                     $fileName = md5(uniqid()) . '.' . $file->guessExtension();
                     $file->move('Uploads', $fileName);
 
-                    $newPerson->setPhoto($fileName);
+                    $person->setPhoto($fileName);
                 }
+
+
+                $person->setDescription($array['description']);
+                $person->setName($array['name']);
+                $person->setSurname($array['surname']);
+                //$person->addSquads($array['squads']);
+
+                if (!empty($array['squads'])) {
+                    $squad = $array['squads'];
+                    $squad->addPerson($person);
+                    $person->addSquads($squad);
+                }
+
+                $validator = $this->get('validator');
+                $errors = $validator->validate($person);
+
+
+                if (count($errors) > 0) {
+                    return array(
+                        'form' => $form->createView(),
+                        'validError' => "Wypełnij imię i nazwisko!",
+                        'errorEntity' => $errors
+                    );
+
+                }
+
+
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($person);
+                $em->persist($squad);
+
                 $em->flush();
 
-                return $this->redirectToRoute('addressbook_person_index', array('id' => $person->getId()));
+                return $this->redirectToRoute('showPerson', array('id' => $person->getId(), 'formData' => $squad));
             }
         }
         return array('form' => $form->createView());
@@ -65,26 +110,28 @@ class PersonController extends Controller
     /**
      * @Route("/{id}/modify")
      * @Template()
+     * @Security("has_role('ROLE_USER')")
      */
     public
     function editPersonAction($id, Request $request)
     {
-        $repo = $this->getDoctrine()->getRepository('AddressBookBundle:Person');
-        $person = $repo->find($id);
+        $repoPerson = $this->getDoctrine()->getRepository('AddressBookBundle:Person');
+        $repoSquad = $this->getDoctrine()->getRepository('AddressBookBundle:Squad');
 
-        $address = new Address();
-        $email = new Email();
-        $phone = new Phone();
-        $squad = new Squad();
+        $person = $repoPerson->find($id);
+        $loggedUser = $this->container->get('security.context')->getToken()->getUser();
+        $person->setUser($loggedUser);
+
+
+        //$squad = new Squad();
 
 
         $form = $this->createFormBuilder()
-            ->add('name', 'text', array('data' => $person->getName()))
-            ->add('surname', 'text', array('data' => $person->getSurname()))
-            ->add('description', 'text', array('data' => $person->getDescription()))
-            ->add('photo', 'file')
-            //->add('email','email')
-            //->add('type','choice',array('choices' => array('Domowy' => 'Domowy', 'Służbowy1' => 'Służbowy')))
+            ->add('name', 'text', array('data' => $person->getName(), 'label' => 'Imię:'))
+            ->add('surname', 'text', array('data' => $person->getSurname(), 'label' => 'Nazwisko:'))
+            ->add('description', 'text', array('data' => $person->getDescription(), 'label' => 'Opis:'))
+            //->add('squads', 'entity', array('class' => 'AddressBookBundle:Squad', 'choice_label' => 'name', 'label' => 'Grupa'))
+            ->add('photo', 'file', array('label' => 'Zdjęcie:'))
             ->add('save', 'submit', array('label' => 'Zapisz zmiany'))
             ->getForm();
 
@@ -93,6 +140,9 @@ class PersonController extends Controller
             if ($form->isSubmitted() && $form->isValid()) {
 
                 $array = $form->getData();
+
+                // $squad = $array['squads'];
+
                 $person->setName($array['name']);
                 $person->setSurname($array['surname']);
                 $person->setDescription($array['description']);
@@ -106,20 +156,40 @@ class PersonController extends Controller
 
                     $person->setPhoto($fileName);
 
-
                 }
+
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($person);
                 $em->flush();
+
+                /*
+                try {
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($person);
+                    $em->persist($squad);
+
+                    $em->flush();
+                } catch (\Doctrine\DBAL\DBALException $e) {
+                    //return $this->redirectToRoute('showPerson', array('id' => $person->getId(), 'error' => 'Użytkownik juz należy do tej grupy'));
+                    return $this->render('AddressBookBundle:Person:editPerson.html.twig', array(
+                        'id' => $person->getId(),
+                        'error' => 'Użytkownik juz należy do tej grupy',
+                        'form' => $form->createView(),
+                        'photo' => $person->getPhoto()));
+
+                }
+                */
+
                 return $this->redirectToRoute('showPerson', array('id' => $person->getId()));
             }
         }
-        return array('form' => $form->createView(), 'photo' => $person->getPhoto());
+        return array('form' => $form->createView(), 'photo' => $person->getPhoto(), 'id' => $person->getId() );
     }
 
     /**
-     * @Route("/showPerson/{id}", name="showPerson")
+     * @Route("/show/{id}", name="showPerson")
      * @Template()
+     * @Security("has_role('ROLE_USER')")
      */
 
     public function showPersonAction($id)
@@ -132,15 +202,17 @@ class PersonController extends Controller
         $phone = $phoneRepo->findByPersonId($id);
         $addressRepo = $this->getDoctrine()->getRepository('AddressBookBundle:Address');
         $address = $addressRepo->findByPersonId($id);
-        //$squadRepo = $this->getDoctrine()->getRepository('AddressBookBundle:Squad');
 
-        $groups = $person->getSquads();
-        return array('person' => $person, 'email' => $email, 'phone' => $phone, 'address' => $address);
+        $squadRepo = $this->getDoctrine()->getRepository('AddressBookBundle:Squad');
+
+        $squads = $person->getSquads();
+        return array('person' => $person, 'email' => $email, 'phone' => $phone, 'address' => $address, 'squads' => $squads);
     }
 
     /**
      * @Route("/{id}/delete")
      * @Template()
+     * @Security("has_role('ROLE_USER')")
      */
     public
     function deletePersonAction($id)
@@ -153,38 +225,76 @@ class PersonController extends Controller
         $em->remove($person);
         $em->flush();
 
-        return $this->redirect('/');
+        return $this->redirect('/person');
     }
 
+
     /**
-     * @Route("/{id}")
+     * @Route("/")
      * @Template()
+     * @Security("has_role('ROLE_USER')")
      */
-    public
-    function indexAction($id = -1)
+
+    public function indexAction(Request $request)
     {
         $repo = $this->getDoctrine()->getRepository('AddressBookBundle:Person');
-        if (($id > 0)) {
-            $person = $repo->find($id);
-            return array('person' => $person);
-        } else {
-            $persons = $repo->findAll();
-            return array('persons' => $persons);
+
+        $loggedUser = $this->container->get('security.context')->getToken()->getUser();
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery(
+            'SELECT p
+            FROM AddressBookBundle:Person p
+            WHERE p.user = :loggedUser ORDER BY p.surname'
+        )->setParameter('loggedUser', $loggedUser);
+
+        $persons = $query->getResult();
+
+        $form = $this->createFormBuilder()
+            ->add('search', 'search', array('label' => false))
+            ->add('Szukaj', 'submit', array('attr' => array('class' => 'btn btn-primary')))
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            $toSearch = $form->getData();
+            $persons = $this->getDoctrine()->getEntityManager()->createQuery(
+                'SELECT p FROM AddressBookBundle:Person p 
+                 WHERE (p.name LIKE :toSearch OR p.surname LIKE :toSearch)
+                 AND p.user = :loggedUser'
+            )->setParameter('toSearch', $toSearch['search'] . '%')
+                ->setParameter('loggedUser', $loggedUser)->getResult();
+            return array('persons' => $persons, 'form' => $form->createView());
         }
 
 
-    }
-    /*
-        /**
-         * @Route("/")
-         * @Method("POST")
-         * @Template("AddressBookBundle:Person:index.html.twig")
-         */
+        return array('persons' => $persons, 'form' => $form->createView());
 
-    /*
-    public function searchAction(Request $request){
 
-        array('post' => $request);
     }
-*/
+
+    /**
+     * @Route("/photo/remove/{id}")
+     * @Template()
+     */
+
+    public function deletePhotoAction($id){
+
+        $repo = $this->getDoctrine()->getRepository("AddressBookBundle:Person");
+
+        $person = $repo->find($id);
+
+
+        $fs = new Filesystem();
+        $fs->remove('Uploads/'.$person->getPhoto());
+
+        $person->setPhoto("");
+
+        $em = $this->getDoctrine()->getEntityManager();
+        $em->persist($person);
+        $em->flush();
+
+        return $this->redirect('/person/show/'.$person->getId());
+
+    }
 }

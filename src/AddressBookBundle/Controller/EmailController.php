@@ -8,12 +8,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+
 
 class EmailController extends Controller
 {
     /**
      * @Route("/addEmail/{id}")
      * @Template()
+     * @Security("has_role('ROLE_USER')")
      */
 
     public function addEmailAction(Request $request, $id)
@@ -42,6 +45,7 @@ class EmailController extends Controller
     /**
      * @Route("/deleteEmail/{id}")
      * @Template()
+     * @Security("has_role('ROLE_USER')")
      */
 
     public function deleteEmailAction($id){

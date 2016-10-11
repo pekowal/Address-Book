@@ -3,6 +3,8 @@
 namespace AddressBookBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * Phone
@@ -32,6 +34,9 @@ class Phone
      * @var string
      *
      * @ORM\Column(name="number", type="string", length=20)
+     * @Assert\NotBlank(
+     *  message = "Numer nie może być pusty"
+     * )
      */
     private $number;
 

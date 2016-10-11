@@ -1,0 +1,15 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block body %}
+
+{% endblock %}
+
+    {% block fos_user_content %}
+            {{ form_start(form, { 'action': path('fos_user_profile_edit'), 'attr': { 'class': 'fos_user_profile_edit' } }) }}
+            {{ form_widget(form) }}
+            <div>
+                <button class="btn btn-success" type="submit" value="{{ 'profile.edit.submit'|trans }}"/>Edytuj użytkownika</button>
+            </div>
+            {{ form_end(form) }}
+
+    {% endblock fos_user_content %}

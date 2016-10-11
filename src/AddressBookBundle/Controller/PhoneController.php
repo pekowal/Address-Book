@@ -10,6 +10,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AddressBookBundle\Entity\Phone;
 use AddressBookBundle\Entity\Person;
 use AddressBookBundle\Form\PhoneType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+
 
 
 class PhoneController extends Controller
@@ -18,6 +20,7 @@ class PhoneController extends Controller
     /**
      * @Route("/addPhone/{id}")
      * @Template()
+     * @Security("has_role('ROLE_USER')")
      */
 
     public function addPhoneAction(Request $request, $id){
@@ -48,6 +51,7 @@ class PhoneController extends Controller
     /**
      * @Route("deletePhone/{id}")
      * @Template()
+     * @Security("has_role('ROLE_USER')")
      */
 
     public function deletePhoneAction($id){

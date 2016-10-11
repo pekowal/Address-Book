@@ -3,6 +3,8 @@
 namespace AddressBookBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * Address
@@ -15,7 +17,7 @@ class Address
 
     /**
      * @ORM\ManyToOne(targetEntity="Person", inversedBy="addresses")
-     * @ORM\JoinColumn(name="person_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="person_id", referencedColumnName="id", onDelete="CASCADE")
      */
 
     private $personId;
@@ -34,27 +36,30 @@ class Address
      * @var string
      *
      * @ORM\Column(name="city", type="string", length=255)
+     * @Assert\NotBlank(
+     *  message = "Nazwa miasta nie może być pusta"
+     * )
      */
     private $city;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="street", type="string", length=255)
+     * @ORM\Column(name="street", type="string", length=255, nullable=true)
      */
     private $street;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="house_number", type="string", length=10)
+     * @ORM\Column(name="house_number", type="string", length=10, nullable=true)
      */
     private $houseNumber;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="local_number", type="string", length=10)
+     * @ORM\Column(name="local_number", type="string", length=10, nullable=true)
      */
     private $localNumber;
 

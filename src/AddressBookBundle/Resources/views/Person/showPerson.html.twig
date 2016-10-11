@@ -5,45 +5,68 @@
 {% block body %}
     {{ parent() }}
 {% endblock %}
+{% block javascripts %}
+
+{% endblock %}
 
     {% block content %}
-
-
         {% if person.photo %}
-            <img class="img-responsive img" src="/Uploads/{{ person.photo }}" height="200" width="200"><br>
+            <div id="photoDiv">
+                <img class="img-responsive img"
+                     src="/Uploads/{{ person.photo }}" height="200"
+                     width="200">
+                <br>
+            </div>
         {% endif %}
 
         <div class="panel panel-default text-left">
             <div class="panel-heading">
                 <h3 class="panel-title">{{ person.name }} {{ person.surname }}</h3>
                 <div class="editPanel text-right">
-                    <a title="Edytuj" href="/{{ person.id }}/modify"><span style="color: black;" class="glyphicon glyphicon-edit"></span></a>
-                    <a title="Usuń" href="/{{ person.id }}/delete"><span style="color: red;" class="glyphicon glyphicon-minus"></span></a>
+                    <a title="Edytuj" href="/person/{{ person.id }}/modify"><span style="color: black;"
+                                                                                  class="glyphicon glyphicon-edit"></span></a>
+                    <a title="Usuń" href="/person/{{ person.id }}/delete"><span style="color: red;"
+                                                                                class="glyphicon glyphicon-minus"></span></a>
                 </div>
             </div>
             <div class="panel-body">
                 {{ person.description }}
             </div>
             <div class="panel-heading text-left">
+                <h3 class="panel-title">Grupy</h3>
+                {% for squad in squads %}
+                    <span>{{ squad.name }}</span><a title="Usuń"
+                                                    href="/squad/{{ person.id }}/{{ squad.id }}/delete"><span
+                            style="color: red;"
+                            class="glyphicon glyphicon-minus"></span></a>
+                {% endfor %}
+                <div class="editPanel text-right"><a title="Dodaj" href="/squad/addToPerson/{{ person.id }}"><span
+                                style="color: forestgreen;"
+                                class="glyphicon glyphicon-plus"></span></a>
+                </div>
+            </div>
+            <div class="panel-heading text-left">
                 <h3 class="panel-title">Adres</h3>
-                <div class="editPanel text-right"><a title="Edytuj" href="/{{ person.id }}/delete"><span style="color: forestgreen;"
-                                                                                            class="glyphicon glyphicon-plus"></span></a>
+                <div class="editPanel text-right"><a title="Dodaj" href="/addAddress/{{ person.id }}"><span
+                                style="color: forestgreen;"
+                                class="glyphicon glyphicon-plus"></span></a>
                 </div>
             </div>
             {% for address in address %}
                 <div class="panel-body text-left">
                     <span>{{ address.city }}, {{ address.street }} {{ address.houseNumber }}
-                        /{{ address.localNumber }}</span>
+                        {% if address.localNumber %}/{{ address.localNumber }}{% endif %}</span>
                     <div class="editPanel text-right">
                         <a title="Usuń" href="/deleteAddress/{{ address.id }}"><span style="color: red"
-                                                                    class="glyphicon glyphicon-minus"></span></a>
+                                                                                     class="glyphicon glyphicon-minus"></span></a>
                     </div>
                 </div>
             {% endfor %}
             <div class="panel-heading text-left">
                 <h3 class="panel-title">Email</h3>
-                <div class="editPanel text-right"><a title="Edytuj" href="/addEmail/{{ person.id }}"><span style="color: forestgreen;"
-                                                                                            class="glyphicon glyphicon-plus"></span></a>
+                <div class="editPanel text-right"><a title="Dodaj" href="/addEmail/{{ person.id }}"><span
+                                style="color: forestgreen;"
+                                class="glyphicon glyphicon-plus"></span></a>
                 </div>
             </div>
             {% for email in email %}
@@ -51,13 +74,14 @@
                     <span>{{ email.type }}: {{ email.email }}</span>
                     <div class="editPanel text-right">
                         <a title="Usuń" href="/deleteEmail/{{ email.id }}"><span style="color: red"
-                                                                    class="glyphicon glyphicon-minus"></span></a>
+                                                                                 class="glyphicon glyphicon-minus"></span></a>
                     </div>
                 </div>
             {% endfor %}
             <div class="panel-heading text-left">
                 <h3 class="panel-title">Numer telefonu</h3>
-                <div style="float: right" class="editPanel text-right"><a title="Edytuj" href="/addPhone/{{ person.id }}"><span
+                <div style="float: right" class="editPanel text-right"><a title="Dodaj"
+                                                                          href="/addPhone/{{ person.id }}"><span
                                 style="color: forestgreen;"
                                 class="glyphicon glyphicon-plus"></span></a>
                 </div>
@@ -67,7 +91,7 @@
                     <span>{{ phone.type }}: {{ phone.number }}</span>
                     <div class="editPanel text-right">
                         <a title="Usuń" href="/deletePhone/{{ phone.id }}"><span style="color: red"
-                                                                    class="glyphicon glyphicon-minus"></span></a>
+                                                                                 class="glyphicon glyphicon-minus"></span></a>
                     </div>
                 </div>
             {% endfor %}

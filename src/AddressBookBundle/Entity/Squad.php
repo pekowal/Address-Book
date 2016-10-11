@@ -3,6 +3,8 @@
 namespace AddressBookBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * Squad
@@ -32,6 +34,9 @@ class Squad
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
+     * @Assert\NotBlank(
+     *  message = "Nazwa nie może być pusta"
+     * )
      */
     private $name;
 

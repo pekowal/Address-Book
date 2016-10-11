@@ -10,6 +10,9 @@
         {{ form_start(form, {'attr':{'novalidate': 'novalidate'}}) }}
         {% if photo %}
             <img class="img-responsive img" src="/Uploads/{{ photo }}" height="200" width="200"><br>
+            <button class="btn-danger btn" title="Usuń" href="/person/photo/remove/{{ id }}">Usuń zdjęcie</button>
+            <br>
+            <br>
         {% endif %}
         {{ form_widget(form) }}
         {{ form_end(form) }}

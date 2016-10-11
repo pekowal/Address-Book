@@ -24,18 +24,34 @@
 
         <!-- Sidebar -->
         <div id="sidebar-wrapper">
+            <div class="text-center">
+                {% if app.user %}
+                    <h3>{{ app.user.username }}</h3>
+                {% endif %}
+            </div>
+            <div class="fos-icons text-center">
+                <a href="/profile/edit"><span class="nav-icon glyphicon glyphicon-edit"></span></a>
+                <a href="/logout"><span title="Wyloguj" class="nav-icon glyphicon glyphicon-log-out"></span></a>
+            </div>
+
             <ul class="sidebar-nav">
                 <li class="sidebar-brand">
-                    <a href="/">
+                    <a href="/person">
                         Address Book
                     </a>
                 </li>
                 <li>
-                    <a href="/new">Stwórz nową osobę</a>
+                    <a href="/person/new">Dodaj nową osobę</a>
                 </li>
-                <li>
-                    <a href="/squad/add">Dodaj grupę</a>
-                </li>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li>
+                        <a href="/squad/add">Dodaj grupę</a>
+                    </li>
+                    <li>
+                        <a href="/squad/remove">Usuń grupę</a>
+                    </li>
+                {% endif %}
+
             </ul>
         </div>
         <!-- /#sidebar-wrapper -->
@@ -47,9 +63,11 @@
                     <div id="menu-toggle" class="text-center"><span class="glyphicon glyphicon-menu-left"></span></div>
                     <div class="col-lg-12">
                         {% block content %}
-                            <h1>Address Book</h1>
-                            <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>
+
                         {% endblock %}
+                        {% block fos_user_content %}
+
+                        {% endblock fos_user_content %}
                     </div>
 
                 </div>
@@ -60,39 +78,40 @@
 
     </div>
 {% endblock %}
+
+<script src="{{ asset('js/jquery.js') }}"></script>
+<script src="{{ asset('js/jquery.transit.min.js') }}"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="{{ asset('js/bootstrap.min.js') }}"></script>
+
+<!-- Menu Toggle Script -->
+<script>
+
+    $("#menu-toggle").click(function (e) {
+        var wrapper = $("#wrapper");
+        var span = $('#menu-toggle span');
+        if ($(this).css('transform') == 'matrix(-1, 1.22465e-16, -1.22465e-16, -1, 0, 0)' || $(this).css('transform') == 'matrix(-1, 0, 0, -1, 0, 0)') {
+            $(this).transition({rotate: '0deg'});
+        } else {
+            $(this).transition({rotate: '180deg'});
+        }
+
+        console.log($(this).css('transform'));
+
+        /*
+         if (span.hasClass('glyphicon-menu-left')) {
+         //span.removeClass("glyphicon-menu-left");
+
+         }else{
+         span.removeClass("glyphicon-menu-right");
+         span.addClass('glyphicon-menu-left');
+         }
+         */
+        wrapper.toggleClass("toggled");
+    });
+</script>
 {% block javascripts %}
-    <script src="{{ asset('js/jquery.js') }}"></script>
-    <script src="{{ asset('js/jquery.transit.min.js') }}"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-
-    <!-- Menu Toggle Script -->
-    <script>
-
-        $("#menu-toggle").click(function (e) {
-            var wrapper = $("#wrapper");
-            var span = $('#menu-toggle span');
-            if ($(this).css('transform') == 'matrix(-1, 1.22465e-16, -1.22465e-16, -1, 0, 0)'){
-                $(this).transition({rotate: '0deg'});
-            }else{
-                $(this).transition({rotate: '180deg'});
-            }
-
-            console.log($(this).css('transform'));
-
-            /*
-            if (span.hasClass('glyphicon-menu-left')) {
-                //span.removeClass("glyphicon-menu-left");
-
-            }else{
-                span.removeClass("glyphicon-menu-right");
-                span.addClass('glyphicon-menu-left');
-            }
-            */
-            wrapper.toggleClass("toggled");
-        });
-    </script>
 {% endblock %}
 </body>
 </html>
