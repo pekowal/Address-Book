@@ -64,10 +64,10 @@ class Person extends \AddressBookBundle\Entity\Person implements \Doctrine\ORM\P
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', '' . "\0" . 'AddressBookBundle\\Entity\\Person' . "\0" . 'squads', '' . "\0" . 'AddressBookBundle\\Entity\\Person' . "\0" . 'emails', '' . "\0" . 'AddressBookBundle\\Entity\\Person' . "\0" . 'addresses', '' . "\0" . 'AddressBookBundle\\Entity\\Person' . "\0" . 'phones', '' . "\0" . 'AddressBookBundle\\Entity\\Person' . "\0" . 'id', '' . "\0" . 'AddressBookBundle\\Entity\\Person' . "\0" . 'name', '' . "\0" . 'AddressBookBundle\\Entity\\Person' . "\0" . 'surname', '' . "\0" . 'AddressBookBundle\\Entity\\Person' . "\0" . 'description', '' . "\0" . 'AddressBookBundle\\Entity\\Person' . "\0" . 'photo');
+            return array('__isInitialized__', '' . "\0" . 'AddressBookBundle\\Entity\\Person' . "\0" . 'squads', '' . "\0" . 'AddressBookBundle\\Entity\\Person' . "\0" . 'emails', '' . "\0" . 'AddressBookBundle\\Entity\\Person' . "\0" . 'addresses', '' . "\0" . 'AddressBookBundle\\Entity\\Person' . "\0" . 'phones', '' . "\0" . 'AddressBookBundle\\Entity\\Person' . "\0" . 'user', '' . "\0" . 'AddressBookBundle\\Entity\\Person' . "\0" . 'id', '' . "\0" . 'AddressBookBundle\\Entity\\Person' . "\0" . 'name', '' . "\0" . 'AddressBookBundle\\Entity\\Person' . "\0" . 'surname', '' . "\0" . 'AddressBookBundle\\Entity\\Person' . "\0" . 'description', '' . "\0" . 'AddressBookBundle\\Entity\\Person' . "\0" . 'photo');
         }
 
-        return array('__isInitialized__', '' . "\0" . 'AddressBookBundle\\Entity\\Person' . "\0" . 'squads', '' . "\0" . 'AddressBookBundle\\Entity\\Person' . "\0" . 'emails', '' . "\0" . 'AddressBookBundle\\Entity\\Person' . "\0" . 'addresses', '' . "\0" . 'AddressBookBundle\\Entity\\Person' . "\0" . 'phones', '' . "\0" . 'AddressBookBundle\\Entity\\Person' . "\0" . 'id', '' . "\0" . 'AddressBookBundle\\Entity\\Person' . "\0" . 'name', '' . "\0" . 'AddressBookBundle\\Entity\\Person' . "\0" . 'surname', '' . "\0" . 'AddressBookBundle\\Entity\\Person' . "\0" . 'description', '' . "\0" . 'AddressBookBundle\\Entity\\Person' . "\0" . 'photo');
+        return array('__isInitialized__', '' . "\0" . 'AddressBookBundle\\Entity\\Person' . "\0" . 'squads', '' . "\0" . 'AddressBookBundle\\Entity\\Person' . "\0" . 'emails', '' . "\0" . 'AddressBookBundle\\Entity\\Person' . "\0" . 'addresses', '' . "\0" . 'AddressBookBundle\\Entity\\Person' . "\0" . 'phones', '' . "\0" . 'AddressBookBundle\\Entity\\Person' . "\0" . 'user', '' . "\0" . 'AddressBookBundle\\Entity\\Person' . "\0" . 'id', '' . "\0" . 'AddressBookBundle\\Entity\\Person' . "\0" . 'name', '' . "\0" . 'AddressBookBundle\\Entity\\Person' . "\0" . 'surname', '' . "\0" . 'AddressBookBundle\\Entity\\Person' . "\0" . 'description', '' . "\0" . 'AddressBookBundle\\Entity\\Person' . "\0" . 'photo');
     }
 
     /**
@@ -406,6 +406,50 @@ class Person extends \AddressBookBundle\Entity\Person implements \Doctrine\ORM\P
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getPhones', array());
 
         return parent::getPhones();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function addSquad(\AddressBookBundle\Entity\Squad $squads)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addSquad', array($squads));
+
+        return parent::addSquad($squads);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function removeSquad(\AddressBookBundle\Entity\Squad $squads)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeSquad', array($squads));
+
+        return parent::removeSquad($squads);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setUser(\AddressBookBundle\Entity\User $user = NULL)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setUser', array($user));
+
+        return parent::setUser($user);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getUser()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getUser', array());
+
+        return parent::getUser();
     }
 
 }

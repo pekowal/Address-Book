@@ -12,6 +12,7 @@ class __TwigTemplate_f6e324d47b018c29bed65291148bd9e5f91dc6598045df7745979259270
         $this->blocks = array(
             'title' => array($this, 'block_title'),
             'body' => array($this, 'block_body'),
+            'javascripts' => array($this, 'block_javascripts'),
             'content' => array($this, 'block_content'),
         );
     }
@@ -42,58 +43,74 @@ class __TwigTemplate_f6e324d47b018c29bed65291148bd9e5f91dc6598045df7745979259270
 ";
     }
 
-    // line 9
+    // line 8
+    public function block_javascripts($context, array $blocks = array())
+    {
+        // line 9
+        echo "
+";
+    }
+
+    // line 12
     public function block_content($context, array $blocks = array())
     {
-        // line 10
+        // line 13
         echo "        ";
         if ($this->getAttribute((isset($context["person"]) ? $context["person"] : null), "photo", array())) {
-            // line 11
-            echo "            <img class=\"img-responsive img\" src=\"/Uploads/";
+            // line 14
+            echo "            <div id=\"photoDiv\">
+                <img class=\"img-responsive img\"
+                     src=\"/Uploads/";
+            // line 16
             echo twig_escape_filter($this->env, $this->getAttribute((isset($context["person"]) ? $context["person"] : null), "photo", array()), "html", null, true);
-            echo "\" height=\"200\" width=\"200\"><br>
+            echo "\" height=\"200\"
+                     width=\"200\">
+                <br>
+            </div>
         ";
         }
-        // line 13
+        // line 21
         echo "
         <div class=\"panel panel-default text-left\">
             <div class=\"panel-heading\">
                 <h3 class=\"panel-title\">";
-        // line 16
+        // line 24
         echo twig_escape_filter($this->env, $this->getAttribute((isset($context["person"]) ? $context["person"] : null), "name", array()), "html", null, true);
         echo " ";
         echo twig_escape_filter($this->env, $this->getAttribute((isset($context["person"]) ? $context["person"] : null), "surname", array()), "html", null, true);
         echo "</h3>
                 <div class=\"editPanel text-right\">
-                    <a title=\"Edytuj\" href=\"/";
-        // line 18
+                    <a title=\"Edytuj\" href=\"/person/";
+        // line 26
         echo twig_escape_filter($this->env, $this->getAttribute((isset($context["person"]) ? $context["person"] : null), "id", array()), "html", null, true);
         echo "/modify\"><span style=\"color: black;\"
-                                                                           class=\"glyphicon glyphicon-edit\"></span></a>
-                    <a title=\"Usuń\" href=\"/";
-        // line 20
+                                                                                  class=\"glyphicon glyphicon-edit\"></span></a>
+                    <a title=\"Usuń\" href=\"/person/";
+        // line 28
         echo twig_escape_filter($this->env, $this->getAttribute((isset($context["person"]) ? $context["person"] : null), "id", array()), "html", null, true);
         echo "/delete\"><span style=\"color: red;\"
-                                                                         class=\"glyphicon glyphicon-minus\"></span></a>
+                                                                                class=\"glyphicon glyphicon-minus\"></span></a>
                 </div>
             </div>
             <div class=\"panel-body\">
                 ";
-        // line 25
+        // line 33
         echo twig_escape_filter($this->env, $this->getAttribute((isset($context["person"]) ? $context["person"] : null), "description", array()), "html", null, true);
         echo "
             </div>
             <div class=\"panel-heading text-left\">
                 <h3 class=\"panel-title\">Grupy</h3>
                 ";
-        // line 29
+        // line 37
         $context['_parent'] = $context;
         $context['_seq'] = twig_ensure_traversable((isset($context["squads"]) ? $context["squads"] : null));
         foreach ($context['_seq'] as $context["_key"] => $context["squad"]) {
-            // line 30
-            echo "                <span>";
+            // line 38
+            echo "                    <span>";
             echo twig_escape_filter($this->env, $this->getAttribute($context["squad"], "name", array()), "html", null, true);
-            echo "</span><a title=\"Usuń\" href=\"/squad/";
+            echo "</span><a title=\"Usuń\"
+                                                    href=\"/squad/";
+            // line 39
             echo twig_escape_filter($this->env, $this->getAttribute((isset($context["person"]) ? $context["person"] : null), "id", array()), "html", null, true);
             echo "/";
             echo twig_escape_filter($this->env, $this->getAttribute($context["squad"], "id", array()), "html", null, true);
@@ -105,12 +122,18 @@ class __TwigTemplate_f6e324d47b018c29bed65291148bd9e5f91dc6598045df7745979259270
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['squad'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 34
-        echo "            </div>
+        // line 43
+        echo "                <div class=\"editPanel text-right\"><a title=\"Dodaj\" href=\"/squad/addToPerson/";
+        echo twig_escape_filter($this->env, $this->getAttribute((isset($context["person"]) ? $context["person"] : null), "id", array()), "html", null, true);
+        echo "\"><span
+                                style=\"color: forestgreen;\"
+                                class=\"glyphicon glyphicon-plus\"></span></a>
+                </div>
+            </div>
             <div class=\"panel-heading text-left\">
                 <h3 class=\"panel-title\">Adres</h3>
-                <div class=\"editPanel text-right\"><a title=\"Edytuj\" href=\"/addAddress/";
-        // line 37
+                <div class=\"editPanel text-right\"><a title=\"Dodaj\" href=\"/addAddress/";
+        // line 50
         echo twig_escape_filter($this->env, $this->getAttribute((isset($context["person"]) ? $context["person"] : null), "id", array()), "html", null, true);
         echo "\"><span
                                 style=\"color: forestgreen;\"
@@ -118,14 +141,14 @@ class __TwigTemplate_f6e324d47b018c29bed65291148bd9e5f91dc6598045df7745979259270
                 </div>
             </div>
             ";
-        // line 42
+        // line 55
         $context['_parent'] = $context;
         $context['_seq'] = twig_ensure_traversable($context["address"]);
         foreach ($context['_seq'] as $context["_key"] => $context["address"]) {
-            // line 43
+            // line 56
             echo "                <div class=\"panel-body text-left\">
                     <span>";
-            // line 44
+            // line 57
             echo twig_escape_filter($this->env, $this->getAttribute($context["address"], "city", array()), "html", null, true);
             echo ", ";
             echo twig_escape_filter($this->env, $this->getAttribute($context["address"], "street", array()), "html", null, true);
@@ -133,7 +156,7 @@ class __TwigTemplate_f6e324d47b018c29bed65291148bd9e5f91dc6598045df7745979259270
             echo twig_escape_filter($this->env, $this->getAttribute($context["address"], "houseNumber", array()), "html", null, true);
             echo "
                         ";
-            // line 45
+            // line 58
             if ($this->getAttribute($context["address"], "localNumber", array())) {
                 echo "/";
                 echo twig_escape_filter($this->env, $this->getAttribute($context["address"], "localNumber", array()), "html", null, true);
@@ -141,7 +164,7 @@ class __TwigTemplate_f6e324d47b018c29bed65291148bd9e5f91dc6598045df7745979259270
             echo "</span>
                     <div class=\"editPanel text-right\">
                         <a title=\"Usuń\" href=\"/deleteAddress/";
-            // line 47
+            // line 60
             echo twig_escape_filter($this->env, $this->getAttribute($context["address"], "id", array()), "html", null, true);
             echo "\"><span style=\"color: red\"
                                                                                      class=\"glyphicon glyphicon-minus\"></span></a>
@@ -152,11 +175,11 @@ class __TwigTemplate_f6e324d47b018c29bed65291148bd9e5f91dc6598045df7745979259270
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['address'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 52
+        // line 65
         echo "            <div class=\"panel-heading text-left\">
                 <h3 class=\"panel-title\">Email</h3>
-                <div class=\"editPanel text-right\"><a title=\"Edytuj\" href=\"/addEmail/";
-        // line 54
+                <div class=\"editPanel text-right\"><a title=\"Dodaj\" href=\"/addEmail/";
+        // line 67
         echo twig_escape_filter($this->env, $this->getAttribute((isset($context["person"]) ? $context["person"] : null), "id", array()), "html", null, true);
         echo "\"><span
                                 style=\"color: forestgreen;\"
@@ -164,21 +187,21 @@ class __TwigTemplate_f6e324d47b018c29bed65291148bd9e5f91dc6598045df7745979259270
                 </div>
             </div>
             ";
-        // line 59
+        // line 72
         $context['_parent'] = $context;
         $context['_seq'] = twig_ensure_traversable($context["email"]);
         foreach ($context['_seq'] as $context["_key"] => $context["email"]) {
-            // line 60
+            // line 73
             echo "                <div class=\"panel-body text-left\">
                     <span>";
-            // line 61
+            // line 74
             echo twig_escape_filter($this->env, $this->getAttribute($context["email"], "type", array()), "html", null, true);
             echo ": ";
             echo twig_escape_filter($this->env, $this->getAttribute($context["email"], "email", array()), "html", null, true);
             echo "</span>
                     <div class=\"editPanel text-right\">
                         <a title=\"Usuń\" href=\"/deleteEmail/";
-            // line 63
+            // line 76
             echo twig_escape_filter($this->env, $this->getAttribute($context["email"], "id", array()), "html", null, true);
             echo "\"><span style=\"color: red\"
                                                                                  class=\"glyphicon glyphicon-minus\"></span></a>
@@ -189,12 +212,12 @@ class __TwigTemplate_f6e324d47b018c29bed65291148bd9e5f91dc6598045df7745979259270
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['email'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 68
+        // line 81
         echo "            <div class=\"panel-heading text-left\">
                 <h3 class=\"panel-title\">Numer telefonu</h3>
-                <div style=\"float: right\" class=\"editPanel text-right\"><a title=\"Edytuj\"
+                <div style=\"float: right\" class=\"editPanel text-right\"><a title=\"Dodaj\"
                                                                           href=\"/addPhone/";
-        // line 71
+        // line 84
         echo twig_escape_filter($this->env, $this->getAttribute((isset($context["person"]) ? $context["person"] : null), "id", array()), "html", null, true);
         echo "\"><span
                                 style=\"color: forestgreen;\"
@@ -202,21 +225,21 @@ class __TwigTemplate_f6e324d47b018c29bed65291148bd9e5f91dc6598045df7745979259270
                 </div>
             </div>
             ";
-        // line 76
+        // line 89
         $context['_parent'] = $context;
         $context['_seq'] = twig_ensure_traversable($context["phone"]);
         foreach ($context['_seq'] as $context["_key"] => $context["phone"]) {
-            // line 77
+            // line 90
             echo "                <div class=\"panel-body text-left\">
                     <span>";
-            // line 78
+            // line 91
             echo twig_escape_filter($this->env, $this->getAttribute($context["phone"], "type", array()), "html", null, true);
             echo ": ";
             echo twig_escape_filter($this->env, $this->getAttribute($context["phone"], "number", array()), "html", null, true);
             echo "</span>
                     <div class=\"editPanel text-right\">
                         <a title=\"Usuń\" href=\"/deletePhone/";
-            // line 80
+            // line 93
             echo twig_escape_filter($this->env, $this->getAttribute($context["phone"], "id", array()), "html", null, true);
             echo "\"><span style=\"color: red\"
                                                                                  class=\"glyphicon glyphicon-minus\"></span></a>
@@ -227,7 +250,7 @@ class __TwigTemplate_f6e324d47b018c29bed65291148bd9e5f91dc6598045df7745979259270
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['phone'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 85
+        // line 98
         echo "
 
         </div>
@@ -246,7 +269,7 @@ class __TwigTemplate_f6e324d47b018c29bed65291148bd9e5f91dc6598045df7745979259270
 
     public function getDebugInfo()
     {
-        return array (  231 => 85,  220 => 80,  213 => 78,  210 => 77,  206 => 76,  198 => 71,  193 => 68,  182 => 63,  175 => 61,  172 => 60,  168 => 59,  160 => 54,  156 => 52,  145 => 47,  137 => 45,  129 => 44,  126 => 43,  122 => 42,  114 => 37,  109 => 34,  94 => 30,  90 => 29,  83 => 25,  75 => 20,  70 => 18,  63 => 16,  58 => 13,  52 => 11,  49 => 10,  46 => 9,  39 => 6,  36 => 5,  30 => 3,  11 => 1,);
+        return array (  254 => 98,  243 => 93,  236 => 91,  233 => 90,  229 => 89,  221 => 84,  216 => 81,  205 => 76,  198 => 74,  195 => 73,  191 => 72,  183 => 67,  179 => 65,  168 => 60,  160 => 58,  152 => 57,  149 => 56,  145 => 55,  137 => 50,  126 => 43,  114 => 39,  109 => 38,  105 => 37,  98 => 33,  90 => 28,  85 => 26,  78 => 24,  73 => 21,  65 => 16,  61 => 14,  58 => 13,  55 => 12,  50 => 9,  47 => 8,  40 => 6,  37 => 5,  31 => 3,  11 => 1,);
     }
 }
 /* {% extends "::base.html.twig" %}*/
@@ -256,20 +279,28 @@ class __TwigTemplate_f6e324d47b018c29bed65291148bd9e5f91dc6598045df7745979259270
 /* {% block body %}*/
 /*     {{ parent() }}*/
 /* {% endblock %}*/
+/* {% block javascripts %}*/
+/* */
+/* {% endblock %}*/
 /* */
 /*     {% block content %}*/
 /*         {% if person.photo %}*/
-/*             <img class="img-responsive img" src="/Uploads/{{ person.photo }}" height="200" width="200"><br>*/
+/*             <div id="photoDiv">*/
+/*                 <img class="img-responsive img"*/
+/*                      src="/Uploads/{{ person.photo }}" height="200"*/
+/*                      width="200">*/
+/*                 <br>*/
+/*             </div>*/
 /*         {% endif %}*/
 /* */
 /*         <div class="panel panel-default text-left">*/
 /*             <div class="panel-heading">*/
 /*                 <h3 class="panel-title">{{ person.name }} {{ person.surname }}</h3>*/
 /*                 <div class="editPanel text-right">*/
-/*                     <a title="Edytuj" href="/{{ person.id }}/modify"><span style="color: black;"*/
-/*                                                                            class="glyphicon glyphicon-edit"></span></a>*/
-/*                     <a title="Usuń" href="/{{ person.id }}/delete"><span style="color: red;"*/
-/*                                                                          class="glyphicon glyphicon-minus"></span></a>*/
+/*                     <a title="Edytuj" href="/person/{{ person.id }}/modify"><span style="color: black;"*/
+/*                                                                                   class="glyphicon glyphicon-edit"></span></a>*/
+/*                     <a title="Usuń" href="/person/{{ person.id }}/delete"><span style="color: red;"*/
+/*                                                                                 class="glyphicon glyphicon-minus"></span></a>*/
 /*                 </div>*/
 /*             </div>*/
 /*             <div class="panel-body">*/
@@ -278,14 +309,19 @@ class __TwigTemplate_f6e324d47b018c29bed65291148bd9e5f91dc6598045df7745979259270
 /*             <div class="panel-heading text-left">*/
 /*                 <h3 class="panel-title">Grupy</h3>*/
 /*                 {% for squad in squads %}*/
-/*                 <span>{{ squad.name }}</span><a title="Usuń" href="/squad/{{ person.id }}/{{ squad.id }}/delete"><span*/
+/*                     <span>{{ squad.name }}</span><a title="Usuń"*/
+/*                                                     href="/squad/{{ person.id }}/{{ squad.id }}/delete"><span*/
 /*                             style="color: red;"*/
 /*                             class="glyphicon glyphicon-minus"></span></a>*/
 /*                 {% endfor %}*/
+/*                 <div class="editPanel text-right"><a title="Dodaj" href="/squad/addToPerson/{{ person.id }}"><span*/
+/*                                 style="color: forestgreen;"*/
+/*                                 class="glyphicon glyphicon-plus"></span></a>*/
+/*                 </div>*/
 /*             </div>*/
 /*             <div class="panel-heading text-left">*/
 /*                 <h3 class="panel-title">Adres</h3>*/
-/*                 <div class="editPanel text-right"><a title="Edytuj" href="/addAddress/{{ person.id }}"><span*/
+/*                 <div class="editPanel text-right"><a title="Dodaj" href="/addAddress/{{ person.id }}"><span*/
 /*                                 style="color: forestgreen;"*/
 /*                                 class="glyphicon glyphicon-plus"></span></a>*/
 /*                 </div>*/
@@ -302,7 +338,7 @@ class __TwigTemplate_f6e324d47b018c29bed65291148bd9e5f91dc6598045df7745979259270
 /*             {% endfor %}*/
 /*             <div class="panel-heading text-left">*/
 /*                 <h3 class="panel-title">Email</h3>*/
-/*                 <div class="editPanel text-right"><a title="Edytuj" href="/addEmail/{{ person.id }}"><span*/
+/*                 <div class="editPanel text-right"><a title="Dodaj" href="/addEmail/{{ person.id }}"><span*/
 /*                                 style="color: forestgreen;"*/
 /*                                 class="glyphicon glyphicon-plus"></span></a>*/
 /*                 </div>*/
@@ -318,7 +354,7 @@ class __TwigTemplate_f6e324d47b018c29bed65291148bd9e5f91dc6598045df7745979259270
 /*             {% endfor %}*/
 /*             <div class="panel-heading text-left">*/
 /*                 <h3 class="panel-title">Numer telefonu</h3>*/
-/*                 <div style="float: right" class="editPanel text-right"><a title="Edytuj"*/
+/*                 <div style="float: right" class="editPanel text-right"><a title="Dodaj"*/
 /*                                                                           href="/addPhone/{{ person.id }}"><span*/
 /*                                 style="color: forestgreen;"*/
 /*                                 class="glyphicon glyphicon-plus"></span></a>*/

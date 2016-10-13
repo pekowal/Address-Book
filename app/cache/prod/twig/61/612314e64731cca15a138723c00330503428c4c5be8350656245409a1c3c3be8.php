@@ -43,23 +43,31 @@ class __TwigTemplate_8ee21fed37ea121d0a7eb4a2983a4867c939e87cc2c5a2a4d7b0bb29b2c
         $this->displayParentBlock("body", $context, $blocks);
         echo "
 
-
 ";
     }
 
-    // line 12
+    // line 11
     public function block_content($context, array $blocks = array())
     {
-        // line 13
+        // line 12
+        echo "        ";
+        if (array_key_exists("validError", $context)) {
+            // line 13
+            echo "            <div class=\"alert alert-danger\">";
+            echo twig_escape_filter($this->env, (isset($context["validError"]) ? $context["validError"] : null), "html", null, true);
+            echo "</div>
+        ";
+        }
+        // line 15
         echo "        ";
         echo         $this->env->getExtension('form')->renderer->renderBlock((isset($context["form"]) ? $context["form"] : null), 'form_start', array("attr" => array("novalidate" => "novalidate")));
         echo "
         ";
-        // line 14
+        // line 16
         echo $this->env->getExtension('form')->renderer->searchAndRenderBlock((isset($context["form"]) ? $context["form"] : null), 'widget');
         echo "
         ";
-        // line 15
+        // line 17
         echo         $this->env->getExtension('form')->renderer->renderBlock((isset($context["form"]) ? $context["form"] : null), 'form_end');
         echo "
     ";
@@ -77,7 +85,7 @@ class __TwigTemplate_8ee21fed37ea121d0a7eb4a2983a4867c939e87cc2c5a2a4d7b0bb29b2c
 
     public function getDebugInfo()
     {
-        return array (  63 => 15,  59 => 14,  54 => 13,  51 => 12,  42 => 7,  39 => 6,  33 => 4,  29 => 1,  27 => 2,  11 => 1,);
+        return array (  71 => 17,  67 => 16,  62 => 15,  56 => 13,  53 => 12,  50 => 11,  42 => 7,  39 => 6,  33 => 4,  29 => 1,  27 => 2,  11 => 1,);
     }
 }
 /* {% extends "::base.html.twig" %}*/
@@ -88,10 +96,12 @@ class __TwigTemplate_8ee21fed37ea121d0a7eb4a2983a4867c939e87cc2c5a2a4d7b0bb29b2c
 /* {% block body %}*/
 /*     {{ parent() }}*/
 /* */
-/* */
 /* {% endblock %}*/
 /* */
 /*     {% block content %}*/
+/*         {% if validError is defined %}*/
+/*             <div class="alert alert-danger">{{ validError }}</div>*/
+/*         {% endif %}*/
 /*         {{ form_start(form, {'attr':{'novalidate': 'novalidate'}}) }}*/
 /*         {{ form_widget(form) }}*/
 /*         {{ form_end(form) }}*/

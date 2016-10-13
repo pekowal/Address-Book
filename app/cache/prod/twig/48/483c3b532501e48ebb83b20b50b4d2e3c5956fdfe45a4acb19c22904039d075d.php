@@ -46,15 +46,26 @@ class __TwigTemplate_d4fedacefc5e95b21cb0bcada948d22ad49c5699566ae65b665e2e78a24
     public function block_content($context, array $blocks = array())
     {
         // line 10
+        echo "
+        ";
+        // line 11
+        if (array_key_exists("error", $context)) {
+            // line 12
+            echo "            <div class=\"alert alert-danger\">";
+            echo twig_escape_filter($this->env, (isset($context["error"]) ? $context["error"] : null), "html", null, true);
+            echo "</div>
+        ";
+        }
+        // line 14
         echo "        ";
         echo         $this->env->getExtension('form')->renderer->renderBlock((isset($context["form"]) ? $context["form"] : null), 'form_start');
         echo "
         ";
-        // line 11
+        // line 15
         echo $this->env->getExtension('form')->renderer->searchAndRenderBlock((isset($context["form"]) ? $context["form"] : null), 'widget');
         echo "
         ";
-        // line 12
+        // line 16
         echo         $this->env->getExtension('form')->renderer->renderBlock((isset($context["form"]) ? $context["form"] : null), 'form_end');
         echo "
     ";
@@ -72,7 +83,7 @@ class __TwigTemplate_d4fedacefc5e95b21cb0bcada948d22ad49c5699566ae65b665e2e78a24
 
     public function getDebugInfo()
     {
-        return array (  58 => 12,  54 => 11,  49 => 10,  46 => 9,  39 => 6,  36 => 5,  30 => 3,  11 => 1,);
+        return array (  69 => 16,  65 => 15,  60 => 14,  54 => 12,  52 => 11,  49 => 10,  46 => 9,  39 => 6,  36 => 5,  30 => 3,  11 => 1,);
     }
 }
 /* {% extends "::base.html.twig" %}*/
@@ -84,6 +95,10 @@ class __TwigTemplate_d4fedacefc5e95b21cb0bcada948d22ad49c5699566ae65b665e2e78a24
 /* {% endblock %}*/
 /* */
 /*     {% block content %}*/
+/* */
+/*         {% if error is defined %}*/
+/*             <div class="alert alert-danger">{{ error }}</div>*/
+/*         {% endif %}*/
 /*         {{ form_start(form) }}*/
 /*         {{ form_widget(form) }}*/
 /*         {{ form_end(form) }}*/

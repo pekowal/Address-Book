@@ -276,6 +276,7 @@ class PersonController extends Controller
     /**
      * @Route("/photo/remove/{id}")
      * @Template()
+     * @Security("has_role('ROLE_USER')")
      */
 
     public function deletePhotoAction($id){
@@ -286,7 +287,11 @@ class PersonController extends Controller
 
 
         $fs = new Filesystem();
-        $fs->remove('Uploads/'.$person->getPhoto());
+
+
+        //$fs->chown('Uploads','www-data',true);
+
+        $fs->remove(array('Uploads'));
 
         $person->setPhoto("");
 

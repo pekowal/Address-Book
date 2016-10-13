@@ -56,14 +56,20 @@ class __TwigTemplate_e9d3a1e28b9d96993780f98266d464f58de3046154e4f652a58404ca178
             echo "            <img class=\"img-responsive img\" src=\"/Uploads/";
             echo twig_escape_filter($this->env, (isset($context["photo"]) ? $context["photo"] : null), "html", null, true);
             echo "\" height=\"200\" width=\"200\"><br>
+            <button class=\"btn-danger btn\" title=\"Usuń\" href=\"/person/photo/remove/";
+            // line 13
+            echo twig_escape_filter($this->env, (isset($context["id"]) ? $context["id"] : null), "html", null, true);
+            echo "\">Usuń zdjęcie</button>
+            <br>
+            <br>
         ";
         }
-        // line 14
+        // line 17
         echo "        ";
         echo $this->env->getExtension('form')->renderer->searchAndRenderBlock((isset($context["form"]) ? $context["form"] : null), 'widget');
         echo "
         ";
-        // line 15
+        // line 18
         echo         $this->env->getExtension('form')->renderer->renderBlock((isset($context["form"]) ? $context["form"] : null), 'form_end');
         echo "
     ";
@@ -81,7 +87,7 @@ class __TwigTemplate_e9d3a1e28b9d96993780f98266d464f58de3046154e4f652a58404ca178
 
     public function getDebugInfo()
     {
-        return array (  67 => 15,  62 => 14,  56 => 12,  54 => 11,  49 => 10,  46 => 9,  39 => 6,  36 => 5,  30 => 3,  11 => 1,);
+        return array (  73 => 18,  68 => 17,  61 => 13,  56 => 12,  54 => 11,  49 => 10,  46 => 9,  39 => 6,  36 => 5,  30 => 3,  11 => 1,);
     }
 }
 /* {% extends "::base.html.twig" %}*/
@@ -96,6 +102,9 @@ class __TwigTemplate_e9d3a1e28b9d96993780f98266d464f58de3046154e4f652a58404ca178
 /*         {{ form_start(form, {'attr':{'novalidate': 'novalidate'}}) }}*/
 /*         {% if photo %}*/
 /*             <img class="img-responsive img" src="/Uploads/{{ photo }}" height="200" width="200"><br>*/
+/*             <button class="btn-danger btn" title="Usuń" href="/person/photo/remove/{{ id }}">Usuń zdjęcie</button>*/
+/*             <br>*/
+/*             <br>*/
 /*         {% endif %}*/
 /*         {{ form_widget(form) }}*/
 /*         {{ form_end(form) }}*/
